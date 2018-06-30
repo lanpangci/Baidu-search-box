@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    a {
+        display: block;
+        text-decoration: none;
+        color: #999;
+        margin: 3px;
+    }
+    
+    .wrapper {
+        margin: 100px;
+    }
+
+    input {
+        height: 38px;
+        width: 400px;
+    }
+
+    ul {
+        display: none;
+        width: 400px;
+        border: 1px solid #ccc;
+    }
+
+    li:hover {
+        background: #e0e0e0;
+    }
+</style>
+
+
+<body>
+    <div class="wrapper">
+        <input type="text">
+        <ul></ul>
+    </div>
+
+
+
+    <script>
+        var oInput = document.getElementsByTagName('input')[0];
+        var oUl = document.getElementsByTagName('ul')[0];
+        var i;
+        //监控输入框的变化
+        oInput.oninput = function () {
+            var value = this.value;
+            var oScript = document.createElement('script');
+            oScript.src = 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=' + value + '&cb=doJson';
+            document.body.appendChild(oScript);
+            document.body.removeChild(oScript);
+        }
+        //回调函数
+        function doJson(data) {
+            var s = data.s;
+            var str = '';
+            if (s.length > 0) {
+                for(i in s) {
+                    str += '<li><a href="https://www.baidu.com/s?wd=' + s[i] + '">' + s[i] + '</a></li>';
+                    if(i == 3) {
+                        break;
+                    }
+                }
+                // oUl.appendChild(str); //不是dom元素/不能使用appendChild
+                oUl.innerHTML = str; //不能使用innerText
+                oUl.style.display = 'block';
+            } else {
+                oUl.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+
+</html>
